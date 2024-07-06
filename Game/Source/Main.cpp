@@ -48,7 +48,7 @@ int main(int argc, char* argv[])
 		Vector2 mousePosition = input.GetMousePosition();
 		if (input.GetMouseuttonDown(0))
 		{
-			particles.push_back(Particle{ mousePosition, { randomf(-100,100), randomf(-300,300)} });
+			particles.push_back(Particle{ mousePosition, { randomf(-100,100), randomf(-300,300)}, randomf(1,5) });
 		}
 
 		for (Particle& particle : particles)
@@ -70,6 +70,7 @@ int main(int argc, char* argv[])
 		renderer.SetColor(255, 255, 255, 0);
 		for (Particle particle : particles)
 		{
+			particle.Update(time.GetDeltaTime());
 			particle.Draw(renderer);
 		}
 

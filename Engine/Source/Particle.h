@@ -14,6 +14,11 @@ struct Particle
 		position {postition}, 
 		velocity {velocity} 
 	{}
+	Particle(Vector2 postition, Vector2 velocity, float life) :
+		position {postition}, 
+		velocity {velocity}, 
+		lifespan {life} 
+	{} 
 
 	void Update(float dt); // delta time (how much time has gone by)
 	void Draw(Renderer renderer);
