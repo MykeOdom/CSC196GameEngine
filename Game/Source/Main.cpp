@@ -7,8 +7,9 @@
 #include "ETime.h"
 #include "MathUtil.h"
 #include "Model.h"
-#include <fmod.hpp>
+#include "Transform.h"
 
+#include <fmod.hpp>
 #include <SDL.h>
 #include <iostream>
 #include <cstdlib>
@@ -30,14 +31,20 @@ int main(int argc, char* argv[])
 	float offset = 0.0f;
 
 std::vector<Vector2> points;
+	points.push_back(Vector2(5, 0));
+	points.push_back(Vector2(-5, -5));
 	points.push_back(Vector2(-5, 5));
-	points.push_back(Vector2(0, -5));
-	points.push_back(Vector2(5, 5));
-	points.push_back(Vector2(-5, 5));
+	points.push_back(Vector2(5, 0));
+	Model model{ points, Color{1,0,0} };
 
-	Model model{ points, Color{1,1,1,0} };
-	Vector2 postion (400, 300);
-	float rotation = 0;
+	Transform transform{ {renderer.getWidth() >> 1, renderer.getHeight() >> 1}, 0, 5};
+
+	//0001 = 1
+	//0010 = 2
+	//0100 = 4
+	//1000 = 8
+
+	// >> 1 (shifting 1 which is just dividing the binary by 2)
 
 	// create audio system
 	FMOD::System* audio;
@@ -49,9 +56,6 @@ std::vector<Vector2> points;
 
 	void* extradriverdata = nullptr;
 	audio->init(32, FMOD_INIT_NORMAL, extradriverdata);
-
-	audio->createSound("test.wav", FMOD_DEFAULT, 0, &sound);
-	sounds.push_back(sound);
 
 	audio->createSound("bass.wav", FMOD_DEFAULT, 0, &sound);
 	sounds.push_back(sound);
@@ -92,32 +96,39 @@ std::vector<Vector2> points;
 			audio->playSound(sounds[3], 0, false, nullptr);
 		}
 
-		Vector2 velocity{ 0,0 };
-		if (input.GetKeyDown(SDL_SCANCODE_LEFT)) velocity.x = -100;
-		if (input.GetKeyDown(SDL_SCANCODE_RIGHT)) velocity.x = 100;
-		if (input.GetKeyDown(SDL_SCANCODE_UP)) velocity.y = -100;
-		if (input.GetKeyDown(SDL_SCANCODE_DOWN)) velocity.y = 100;
 
-		postion = postion + velocity * time.GetDeltaTime();
-		rotation = velocity.Angle(); //rotation + time.GetDeltaTime();
+		float thrust = 0;
+		if (input.GetKeyDown(SDL_SCANCODE_UP)) thrust = 400;
+		if (input.GetKeyDown(SDL_SCANCODE_DOWN)) thrust = -400;
+
+		if (input.GetKeyDown(SDL_SCANCODE_LEFT)) transform.rotation -= Math::DegtToRad(100) * time.GetDeltaTime();
+		if (input.GetKeyDown(SDL_SCANCODE_RIGHT)) transform.rotation += Math::DegtToRad(100) * time.GetDeltaTime();
+
+
+		Vector2 velocity = Vector2{ thrust, 0.0f }.Rotate(transform.rotation);
+		transform.postion += velocity * time.GetDeltaTime();
+		transform.postion.x = Math::Wrap(transform.postion.x, (float)renderer.getWidth());
+		transform.postion.y = Math::Wrap(transform.postion.y, (float)renderer.getHeight());
+
+		//transform.rotation = velocity.Angle(); //trandsform.rotation + time.GetDeltaTime();
 
 		// UPDATE
 		Vector2 mousePosition = input.GetMousePosition();
-		//if (input.GetMouseuttonDown(0))
-		//{
-		//	//std::cout << "mouse pressed" << std::endl;
-		//	for (int i = 0; i < 10; i++) {
-		//		particles.push_back(Particle{ mousePosition, randomOnUnitCirlce() * randomf(10,100), randomf(1.0f, 5.0f) });
-		//	}
-		//}
+		if (input.GetMouseuttonDown(0))
+		{
+			//std::cout << "mouse pressed" << std::endl;
+			for (int i = 0; i < 10; i++) {
+				particles.push_back(Particle{ mousePosition, randomOnUnitCirlce() * randomf(10,100), randomf(1.0f, 5.0f) });
+			}
+		}
 
-		//for (Particle& particle : particles)
-		//{
-		//	particle.Update(time.GetDeltaTime());
+		for (Particle& particle : particles)
+		{
+			particle.Update(time.GetDeltaTime());
 
-		//	if (particle.position.x > 800) particle.position.x = 0;
-		//	if (particle.position.x < 0) particle.position.x = 800;
-		//}
+			if (particle.position.x > 800) particle.position.x = 0;
+			if (particle.position.x < 0) particle.position.x = 800;
+		}
 
 		// DRAW
 		// clear screen
@@ -143,7 +154,7 @@ std::vector<Vector2> points;
 			//renderer.DrawRect(800 + x, 300 + y, 4.0f, 4.0f);
 		}
 
-		model.Draw(renderer, postion, 0, 5);
+		model.Draw(renderer, transform);
 
 		// show screen
 		renderer.EndFrame();

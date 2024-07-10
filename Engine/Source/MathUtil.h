@@ -46,8 +46,18 @@ namespace Math
         return (value < 0) ? -value : value;
     }
     template<typename T>
-    inline T Clamp(T value, T min, T max) {
+    T Clamp(T value, T min, T max) {
         return (value < min) ? min : (value > max) ? max : value;
+    }
+
+    inline int Wrap(int value, int max)
+    {
+        return value % max + ((value < 0) ? max : 0);
+    }
+
+    inline float Wrap(float value, float max)
+    {
+        return std::fmodf(value, max) + ((value < 0) ? max : 0);
     }
 
 }

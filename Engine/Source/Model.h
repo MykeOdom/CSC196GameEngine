@@ -1,5 +1,6 @@
 #pragma once
 #include "Vector2.h"
+#include "Transform.h"
 #include "Color.h"
 #include "Renderer.h"
 
@@ -16,7 +17,8 @@ public:
 		m_color{ color }
 	{}
 
-	void Draw(Renderer renderer, const Vector2& postion, float angle, float scale);
+	void Draw(Renderer& renderer, const Vector2& postion, float angle, float scale);
+	void Draw(Renderer& renderer, Transform& transform);
 
 private:
 	std::vector<Vector2> m_points;
