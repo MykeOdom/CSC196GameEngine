@@ -21,6 +21,6 @@ struct Particle
 	{} 
 
 	void Update(float dt); // delta time (how much time has gone by)
-	void Draw(Renderer renderer);
+	void Draw(Renderer& renderer);
 
 };

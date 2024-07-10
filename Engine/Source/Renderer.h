@@ -20,6 +20,9 @@ public:
 	void DrawPoint(int x, int y);
 	void DrawPoint(float x, float y);
 
+	void DrawRect(int x, int y, int w, int h);
+	void DrawRect(float x, float y, float w, float h);
+
 private:
 	SDL_Window* m_window;
 	SDL_Renderer* m_renderer;
