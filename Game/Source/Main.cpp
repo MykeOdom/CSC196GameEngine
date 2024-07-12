@@ -37,7 +37,18 @@ std::vector<Vector2> points;
 	points.push_back(Vector2(5, 0));
 	Model model{ points, Color{1,0,0} };
 
-	Transform transform{ {renderer.getWidth() >> 1, renderer.getHeight() >> 1}, 0, 5};
+	Transform transform{ {renderer.getWidth() >> 1, renderer.getHeight() >> 1}, 0, 5 };
+
+	std::vector<Vector2> rock;
+	rock.push_back(Vector2(5, 0));
+	rock.push_back(Vector2(-5, 3));
+	rock.push_back(Vector2(-5, 0));
+	rock.push_back(Vector2(-5, -2));
+	rock.push_back(Vector2(5, 2));
+	rock.push_back(Vector2(5, 0));
+	Model modelRock{ rock, Color{1,0,1} };
+	
+	Transform transformRock{ {renderer.getWidth() >> 1, renderer.getHeight() >> 1}, 0, 5 };
 
 	//0001 = 1
 	//0010 = 2
@@ -155,6 +166,7 @@ std::vector<Vector2> points;
 		}
 
 		model.Draw(renderer, transform);
+		modelRock.Draw(renderer, transformRock);
 
 		// show screen
 		renderer.EndFrame();

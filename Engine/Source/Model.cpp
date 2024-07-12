@@ -11,7 +11,7 @@ void Model::Draw(Renderer& renderer, const Vector2& postion, float angle, float 
 		Vector2 p1 = m_points[i].Rotate(angle) * scale + postion;
 		Vector2 p2 = m_points[i+ 1].Rotate(angle) * scale + postion;
 
-		renderer.DrawLine(p1.x, p2.y, p2.x, p2.y);
+		renderer.DrawLine(p1.x, p1.y, p2.x, p2.y);
 	}
 }
 
