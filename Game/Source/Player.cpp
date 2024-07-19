@@ -2,6 +2,8 @@
 #include "Bullet.h"
 #include "Scene.h"
 #include "Engine.h"
+#include "Transform.h"
+#include "GameData.h"
 
 void Player::OnCollision(Actor* actor)
 {
@@ -28,12 +30,12 @@ void Player::Update(float dt)
 
 	m_velocity += acceleration * dt;
 
-	m_transform.postion.x = Math::Wrap(m_transform.postion.x, (float)g_engine.GetRenderer().getWidth());
-	m_transform.postion.y = Math::Wrap(m_transform.postion.y, (float)g_engine.GetRenderer().getHeight());
+	m_transform.position.x = Math::Wrap(m_transform.position.x, (float)g_engine.GetRenderer().getWidth());
+	m_transform.position.y = Math::Wrap(m_transform.position.y, (float)g_engine.GetRenderer().getHeight());
 
 	//fire
 	m_fireTimer -= dt;
-	if (INPUT.GetKeyDown(SDL_SCANCODE_SPACE) && m_fireTimer <= 0)
+	if (g_engine.GetInput().GetKeyDown(SDL_SCANCODE_SPACE) && m_fireTimer <= 0)
 	{
 		Color color{ 1,1,0 };
 		std::vector<Vector2> points;
@@ -42,7 +44,7 @@ void Player::Update(float dt)
 		points.push_back(Vector2{ -5 , 5 });
 		points.push_back(Vector2{ 5 , 0 });
 
-		Model* model = new Model{ points, color };
+		Model* model = new Model{ GameData::shipPoints, color };
 		Transform transform{ m_transform.position, m_transform.rotation, 1 };
 
 		Bullet* bullet = new Bullet{ 400.f, transform, model };
