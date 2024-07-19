@@ -22,10 +22,10 @@ struct Color
 	Color operator * (const Color& c) const { return Color { r * c.r, g * c.g, r * c.r, g * c.g, b * c.b, a * c.a }; }
 	Color operator / (const Color& c) const { return Color { r / c.r, g / c.g, r / c.r, g / c.g, b / c.b, a / c.a }; }*/ // dont normaly do this 
 	
-/*	Color operator + (float s) const { return Color{ x + s, y + s }; }
-	Color operator - (float s) const { return Color{ x - s, y - s }; }
-	Color operator * (float s) const { return Color{ x * s, y * s }; }
-	Color operator / (float s) const { return Color{ x / s, y / s }; }
+/*	Color operator + (float s) const { return Color{  r + c.r, g + c.g, r + c.r, g + c.g, b + c.b, a + c.a }; }
+	Color operator - (float s) const { return Color{  r - c.r, g - c.g, r - c.r, g - c.g, b - c.b, a - c.a }; }
+	Color operator * (float s) const { return Color{  r * c.r, g * c.g, r * c.r, g * c.g, b * c.b, a * c.a }; }
+	Color operator / (float s) const { return Color{  r / c.r, g / c.g, r / c.r, g / c.g, b / c.b, a / c.a }; }
 	
 	Color  operator += (const Color& v) { x += v.x; y += v.y; return *this; }
 	Color  operator -= (const Color& v) { x -= v.x; y -= v.y; return *this; }

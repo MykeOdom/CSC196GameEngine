@@ -9,10 +9,10 @@ public:
 	Input() = default;
 	~Input() = default;
 
-	bool Initialize();
-	void Shutdown();
+	inline bool Initialize();
+	inline void Shutdown();
 
-	void Update();
+	inline void Update();
 
 	bool GetKeyDown(uint8_t key) { return m_keyboardState[key]; }
 	bool GetPreviousKeyDown(uint8_t key) { return m_prevKeyboardState[key]; }

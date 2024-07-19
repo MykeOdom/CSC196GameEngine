@@ -3,15 +3,14 @@
 
 struct Transform
 {
-	Vector2 postion;
+	Vector2 position;
 	float rotation;
 	float scale;
 
 	Transform() = default;
-	Transform(Vector2 postion, float rotation = 0, float scale = 1) :
-		postion{ postion },
+	Transform(Vector2 position, float rotation = 0, float scale = 1) :
+		position{ position },
 		rotation{ rotation },
 		scale{ scale }
 	{}
-
 };
