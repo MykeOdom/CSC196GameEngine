@@ -1,8 +1,8 @@
 #pragma once
 #include "Transform.h"
+#include "Model.h"
 #include <string>
 
-class Model;
 class Renderer;
 class Scene;
 
@@ -15,6 +15,7 @@ public:
 		m_transform{ transform },
 		m_model{ model }
 	{}
+
 	virtual void Update(float dt);
 	virtual void Draw(Renderer& renderer);
 
@@ -26,6 +27,8 @@ public:
 	std::string& GetTag() { return m_tag; }
 
 	virtual void OnCollision(Actor* actor);
+
+	float GetRadius() { return (m_model) ? m_model->GetRadius() * m_transform.scale : 0; }
 
 	friend class Scene;
 

@@ -1,5 +1,14 @@
 #include "Particle.h"
 
+void Particle::Initialize(const Data& data)
+{
+	isActive = true;
+	position = data.position;
+	velocity = data.velocity;
+	lifespan = data.lifespan;
+	//add the colors line by line
+}
+
 void Particle::Update(float dt)
 {
 	position = position + (velocity) * dt;
@@ -7,6 +16,7 @@ void Particle::Update(float dt)
 	{
 		lifespan -= dt;
 	}
+	if (lifespan <= 0) isActive = false;
 }
 
 //void Particle::Draw(Renderer renderer)

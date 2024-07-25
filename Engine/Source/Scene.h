@@ -1,13 +1,17 @@
 #pragma once
 #include <list>
+#include <memory>
 
 class Renderer;
 class Actor;
+class Game;
 
 class Scene
 {
 public:
-	Scene() = default;
+	//Scene() = default;
+
+	Scene(Game* game) : m_game{ game } {}
 
 	template<typename T>
 	T* GetActor();
@@ -15,17 +19,24 @@ public:
 	void Update(float dt);
 	void Draw(Renderer& renderer);
 
-	void AddActor(Actor* actor);
+	void AddActor(std::unique_ptr<Actor> actor);
+
+	void RemoveAll();
+
+	Game* GetGame() { return m_game; }
+
 protected:
-	std::list<Actor*> m_actors;
+	std::list<std::unique_ptr<Actor>> m_actors;
+
+	Game* m_game{ nullptr };
 };
 
 template<typename T>
 T* Scene::GetActor()
 {
-	for (Actor* actor : m_actors)
+	for (auto& actor : m_actors)
 	{
-		T* result = dynamic_cast<T*>(actor);
+		T* result = dynamic_cast<T*>(actor.get());
 		if (result) return result;
 	}
 	return nullptr;

@@ -4,11 +4,12 @@
 #include "Renderer.h"
 #include "Transform.h"
 #include <vector>
+
 class Model
 {
 public:
 	Model() = default;
-	Model(std::vector<Vector2>& points, Color& color) :
+	Model(const std::vector<Vector2>& points, Color& color) :
 		m_points{ points },
 		m_color{ color }
 	{}
