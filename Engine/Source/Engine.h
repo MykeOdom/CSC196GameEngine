@@ -43,7 +43,7 @@ public:
 
 	Time& GetTime(){ return *m_time; }
 
-	bool IsQuit(){ return true; }
+	bool IsQuit(){ return false; }
 
 private:
 
