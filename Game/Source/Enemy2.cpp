@@ -1,9 +1,9 @@
-#include "Enemy.h"
+#include "Enemy2.h"
 #include "Scene.h"
 #include "Player.h"
 #include "Game.h"
 
-void Enemy::OnCollision(Actor* actor)
+void Enemy2::OnCollision(Actor* actor)
 {
 	if (actor->GetTag() == "Player")
 	{
@@ -12,7 +12,7 @@ void Enemy::OnCollision(Actor* actor)
 	}
 }
 
-void Enemy::Update(float dt)
+void Enemy2::Update(float dt)
 {
 	Player* player = m_scene->GetActor<Player>();
 	if (player)

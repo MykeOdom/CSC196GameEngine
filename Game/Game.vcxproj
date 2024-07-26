@@ -21,6 +21,7 @@
   <ItemGroup>
     <ClCompile Include="Source\Bullet.cpp" />
     <ClCompile Include="Source\Enemy.cpp" />
+    <ClCompile Include="Source\Enemy2.cpp" />
     <ClCompile Include="Source\GameData.cpp" />
     <ClCompile Include="Source\Main.cpp" />
     <ClCompile Include="Source\Pickup.cpp" />
@@ -35,6 +36,7 @@
   <ItemGroup>
     <ClInclude Include="Source\Bullet.h" />
     <ClInclude Include="Source\Enemy.h" />
+    <ClInclude Include="Source\Enemy2.h" />
     <ClInclude Include="Source\GameData.h" />
     <ClInclude Include="Source\Pickup.h" />
     <ClInclude Include="Source\Player.h" />

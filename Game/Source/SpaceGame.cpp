@@ -37,6 +37,7 @@ void SpaceGame::Update(float dt)
     case eState::STARTGAME:
         m_score = 0;
         m_state = eState::STARTLEVEL;
+        m_lives = 3;
         break;
     case eState::STARTLEVEL:
         m_scene->RemoveAll();
@@ -49,6 +50,7 @@ void SpaceGame::Update(float dt)
             player->SetTag("Player");
             m_scene->AddActor(std::move(player));
         }
+
         m_spawnTime = 3;
         m_spawnTimer = m_spawnTimer;
         m_state = eState::GAME;
@@ -68,6 +70,14 @@ void SpaceGame::Update(float dt)
             enemy->SetDamping(2.0f);
             enemy->SetTag("Enemy");
             m_scene->AddActor(std::move(enemy));
+
+            Color color2{ 0,1,1,1 };
+            Transform enemy2Transform{ {(rand() % 800), (rand() % 600)}, 0, randomf(0.1f,0.5f) };
+            auto* enemy2Model = new Model{ GameData::shipPoints, color2 }; 
+            auto enemy2 = std::make_unique<Enemy>(200.0f, enemy2Transform, enemy2Model);
+            enemy2->SetDamping(2.0f); 
+            enemy2->SetTag("Enemy"); 
+            m_scene->AddActor(std::move(enemy2)); 
 
             //create pickup
             Transform pickTransform{ {(rand() % 800), (rand() % 600)}, 0, randomf(0.1f,0.5f) };
@@ -99,26 +109,36 @@ void SpaceGame::Update(float dt)
 
 void SpaceGame::Draw(Renderer & renderer)
 {
+    std::string text;
     switch (m_state)
     {
     case SpaceGame::eState::TITLE:
         //draw text
+        text = "press space to start ";
+        m_textScore->Create(renderer, text, { 0,1,0,1 });
+        m_textScore->Draw(renderer, 300, 250);
         break;
     case SpaceGame::eState::GAMEOVER:
         //draw text
+        text = "game over : " + std::to_string(m_score);
+        m_textScore->Create(renderer, text, { 0,1,0,1 });
+        m_textScore->Draw(renderer, 300, 250);
+        break;
+
+    case SpaceGame::eState::GAME:
+        //draw score
+        text = "score " + std::to_string(m_score);
+        m_textScore->Create(renderer, text, { 0,1,0,1 });
+        m_textScore->Draw(renderer, 20, 20);
+        // 
+        //draw lives
+        text = "lives " + std::to_string(m_lives);
+        m_textLives->Create(renderer, text, { 0,1,0,1 });
+        m_textLives->Draw(renderer, 20, 40);
         break;
     default:
         break;
     }
-    //draw score
-    std::string text = "Score " + std::to_string(m_score);
-    m_textScore->Create(renderer, text, { 0,1,0,1 });
-    m_textScore->Draw(renderer, 20, 20);
-    // 
-    //draw lives
-    text = "Lives " + std::to_string(m_score);
-    m_textLives->Create(renderer, text, { 0,1,0,1 });
-    m_textLives->Draw(renderer, 20, 40);
 
     m_scene->Draw(renderer);
 }
@@ -127,4 +147,5 @@ void SpaceGame::OnPlayerDeath()
 {
     m_lives--;
     m_state = (m_lives == 0) ? eState::GAMEOVER : eState::PLAYERDEAD;
+    m_stateTimer = 2;
 }

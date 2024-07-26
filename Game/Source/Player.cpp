@@ -5,6 +5,7 @@
 #include "Transform.h"
 #include "GameData.h"
 #include "SpaceGame.h"
+#include "Audio.h"
 #include <memory>
 
 void Player::OnCollision(Actor* actor)
@@ -39,7 +40,7 @@ void Player::Update(float dt)
 
 	//fire
 	m_fireTimer -= dt;
-	if (g_engine.GetInput().GetKeyDown(SDL_SCANCODE_SPACE) && m_fireTimer <= 0)
+	if (g_engine.GetInput().GetKeyDown(SDL_SCANCODE_F) && m_fireTimer <= 0)
 	{
 		m_fireTimer = 0.2f * m_fireModifier;
 
@@ -61,6 +62,7 @@ void Player::Update(float dt)
 		bullet->SetLifespan(1);
 		bullet->SetTag("PlayerBullet");
 		m_scene->AddActor(std::move(bullet));
+		g_engine.GetAudio().PlaySound("cowbell.wav");
 	}
 
 	Actor::Update(dt);

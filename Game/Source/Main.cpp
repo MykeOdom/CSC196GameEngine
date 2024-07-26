@@ -17,6 +17,8 @@ int main(int argc, char* argv[])
 	SpaceGame* game = new SpaceGame(&g_engine);
 	game->Initialize();
 
+	g_engine.GetAudio().AddSound("cowbell.wav");
+
 
 	while (!g_engine.IsQuit())
 	{
